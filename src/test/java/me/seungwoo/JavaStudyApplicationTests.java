@@ -46,7 +46,7 @@ public class JavaStudyApplicationTests {
     @Test
     public void functionTest(){
         Function<BufferedReader, String> f =
-                (BufferedReader br) -> {
+                (br) -> {
                     try {
                         return br.readLine();
                     }catch (IOException e){
