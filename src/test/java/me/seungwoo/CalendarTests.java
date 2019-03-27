@@ -141,12 +141,12 @@ public class CalendarTests {
         int preMonth = firstDate.getMonthValue();
         int preDay = firstDate.getDayOfMonth();
         while (!firstDate.isAfter(lastDate)) {
+            //월별
             CalendarTestDto.CalendarListData calendarListData = new CalendarTestDto.CalendarListData();
             calendarListData.setYear(firstDate.getYear());
             calendarListData.setMonth(firstDate.getMonthValue());
             LocalDate currentDate = LocalDate.of(firstDate.getYear(), firstDate.getMonthValue(), firstDate.getDayOfMonth());
-            //이번달 마지막일 maxDay에 저장
-            int maxDay = currentDate.lengthOfMonth();
+            //주차별담기
             List<CalendarTestDto.DayData> dayData = new ArrayList<>();
             System.out.println(firstDate); //2019-03-28
 
