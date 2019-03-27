@@ -129,8 +129,29 @@ public class CalendarTests {
         LocalDate firstDate = LocalDate.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth() + 1);
         LocalDate lastDate = LocalDate.of(firstDate.getYear() + 1, firstDate.getMonth(), firstDate.getDayOfMonth());
 
+        //해당 월의 몇주차인지
+        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfMonth();
+
+        //캘린더 휴일데이터
+        CalendarTestDto.CalendarHolidayData calendarData = new CalendarTestDto.CalendarHolidayData();
+        CalendarTestDto.ItemData itemData = new CalendarTestDto.ItemData(firstDate, lastDate);
+        calendarData.setItem(itemData);
+        List<CalendarTestDto.CalendarListData> list = new ArrayList<>();
+        int preYear = firstDate.getYear();
+        int preMonth = firstDate.getMonthValue();
+        int preDay = firstDate.getDayOfMonth();
         while (!firstDate.isAfter(lastDate)) {
-            System.out.println(firstDate);
+            CalendarTestDto.CalendarListData calendarListData = new CalendarTestDto.CalendarListData();
+            calendarListData.setYear(firstDate.getYear());
+            calendarListData.setMonth(firstDate.getMonthValue());
+            LocalDate currentDate = LocalDate.of(firstDate.getYear(), firstDate.getMonthValue(), firstDate.getDayOfMonth());
+            //이번달 마지막일 maxDay에 저장
+            int maxDay = currentDate.lengthOfMonth();
+            List<CalendarTestDto.DayData> dayData = new ArrayList<>();
+            System.out.println(firstDate); //2019-03-28
+
+
+
             firstDate = firstDate.plusDays(1);
         }
     }

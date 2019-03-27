@@ -22,6 +22,7 @@ public class CalendarTestDto {
         private String weekdayTitle[] = new String[]{"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
     }
 
+    //월별 담기
     @Data
     public static class CalendarListData{
         private int year;
@@ -37,6 +38,7 @@ public class CalendarTestDto {
         private LocalDate lastDate;
     }
 
+    //주차별 담기 6주차
     @Data
     public static class DayData{
         private int day;
