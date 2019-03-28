@@ -140,19 +140,30 @@ public class CalendarTests {
         int preYear = firstDate.getYear();
         int preMonth = firstDate.getMonthValue();
         int preDay = firstDate.getDayOfMonth();
+        List<CalendarTestDto.DayData> dayData = new ArrayList<>();
         while (!firstDate.isAfter(lastDate)) {
+
             //월별
             CalendarTestDto.CalendarListData calendarListData = new CalendarTestDto.CalendarListData();
             calendarListData.setYear(firstDate.getYear());
             calendarListData.setMonth(firstDate.getMonthValue());
             LocalDate currentDate = LocalDate.of(firstDate.getYear(), firstDate.getMonthValue(), firstDate.getDayOfMonth());
+
             //주차별담기
-            List<CalendarTestDto.DayData> dayData = new ArrayList<>();
+            currentDate.get(woy);
+            CalendarTestDto.DayData day = new CalendarTestDto.DayData();
+            day.setDay(firstDate.getDayOfMonth());
+            day.setWeekday(firstDate.getDayOfWeek().getValue());
+
+
             System.out.println(firstDate); //2019-03-28
 
 
 
             firstDate = firstDate.plusDays(1);
+            preYear = firstDate.getYear();
+            preMonth = firstDate.getMonthValue();
+            preDay = firstDate.getDayOfMonth();
         }
     }
 }
