@@ -9,7 +9,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.concurrent.Callable;
 import java.util.function.Function;
 
 
@@ -44,12 +43,12 @@ public class JavaStudyApplicationTests {
     }
 
     @Test
-    public void functionTest(){
+    public void functionTest() {
         Function<BufferedReader, String> f =
                 (br) -> {
                     try {
                         return br.readLine();
-                    }catch (IOException e){
+                    } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 };
