@@ -158,8 +158,6 @@ public class CalendarTests {
 
             System.out.println(firstDate); //2019-03-28
 
-
-
             firstDate = firstDate.plusDays(1);
             preYear = firstDate.getYear();
             preMonth = firstDate.getMonthValue();
