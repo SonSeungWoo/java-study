@@ -7,13 +7,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.StopWatch;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Leo.
@@ -74,94 +70,20 @@ public class CalendarTests {
 
     @Test
     public void test() {
-        StopWatch sw = new StopWatch();
-        sw.start();
-        //시작일 DB min(solar_date)  종료일 max(solar_date)
-        LocalDateTime localDateTime = LocalDateTime.now();
-        LocalDate firstDate = LocalDate.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth() + 1);
-        LocalDate lastDate = LocalDate.of(firstDate.getYear() + 1, firstDate.getMonth(), firstDate.getDayOfMonth());
-        //해당 월의 몇주차인지
-        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfMonth();
-
-        //캘린더 휴일데이터
-        CalendarTestDto.CalendarHolidayData calendarData = new CalendarTestDto.CalendarHolidayData();
-        //TODO firstDate, lastDate 휴일 min,max값 기준 확인필요
-        CalendarTestDto.ItemData itemData = new CalendarTestDto.ItemData(firstDate, lastDate);
-        calendarData.setItem(itemData);
-        List<CalendarTestDto.CalendarListData> list = new ArrayList<>();
-        //DB calendar year min < max
-
-
-        for (int year = firstDate.getYear(); year <= lastDate.getYear(); year++) {
-            //DB calendar month min < max
-            for (int month = firstDate.getMonthValue(); month <= lastDate.getMonthValue(); month++) {
-                CalendarTestDto.CalendarListData calendarListData = new CalendarTestDto.CalendarListData();
-                calendarListData.setYear(year);
-                calendarListData.setMonth(month);
-                LocalDate currentDate = LocalDate.of(year, month, 1);
-                //이번달 마지막일 maxDay에 저장
-                int maxDay = currentDate.lengthOfMonth();
-                List<CalendarTestDto.DayData> dayData = new ArrayList<>();
-                for (int i = 1; i <= maxDay; i++) {
-                    //주차
-                    LocalDate week = LocalDate.of(year, month, i);
-                    int weekNum = week.get(woy);
-                    CalendarTestDto.DayData data = new CalendarTestDto.DayData();
-                    data.setDay(i);
-                    data.setIsHoliday(false);
-                    data.setIsPastMonth(false);
-                    data.setSelectable(false);
-                    data.setWeekday(i);
-                    dayData.add(data);
-                }
-                calendarListData.setDays(dayData);
-                list.add(calendarListData);
-            }
+        LocalDate firstDate = LocalDate.of(2019, 4, 1);
+        int pastDay = firstDate.getDayOfWeek().getValue();
+        System.out.println(firstDate.getDayOfWeek().getValue());
+        List<CalendarTestDto.DayData> weekList = new ArrayList<>();
+        for (int i = pastDay; i > 0; i--) {
+            CalendarTestDto.DayData dayData = new CalendarTestDto.DayData();
+            LocalDate previousDay = firstDate.minusDays(i);
+            dayData.setDay(previousDay.getDayOfMonth());
+            dayData.setWeekday(1);
+            dayData.setIsHoliday(false);
+            dayData.setIsPastMonth(true);
+            dayData.setSelectable(false);
+            weekList.add(dayData);
         }
-        calendarData.setList(list);
-        sw.stop();
-        System.out.println("TotalTime : " + sw.getTotalTimeSeconds());
-    }
-
-    @Test
-    public void test2() {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        LocalDate firstDate = LocalDate.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth() + 1);
-        LocalDate lastDate = LocalDate.of(firstDate.getYear() + 1, firstDate.getMonth(), firstDate.getDayOfMonth());
-
-        //해당 월의 몇주차인지
-        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfMonth();
-
-        //캘린더 휴일데이터
-        CalendarTestDto.CalendarHolidayData calendarData = new CalendarTestDto.CalendarHolidayData();
-        CalendarTestDto.ItemData itemData = new CalendarTestDto.ItemData(firstDate, lastDate);
-        calendarData.setItem(itemData);
-        List<CalendarTestDto.CalendarListData> list = new ArrayList<>();
-        int preYear = firstDate.getYear();
-        int preMonth = firstDate.getMonthValue();
-        int preDay = firstDate.getDayOfMonth();
-        List<CalendarTestDto.DayData> dayData = new ArrayList<>();
-        while (!firstDate.isAfter(lastDate)) {
-
-            //월별
-            CalendarTestDto.CalendarListData calendarListData = new CalendarTestDto.CalendarListData();
-            calendarListData.setYear(firstDate.getYear());
-            calendarListData.setMonth(firstDate.getMonthValue());
-            LocalDate currentDate = LocalDate.of(firstDate.getYear(), firstDate.getMonthValue(), firstDate.getDayOfMonth());
-
-            //주차별담기
-            currentDate.get(woy);
-            CalendarTestDto.DayData day = new CalendarTestDto.DayData();
-            day.setDay(firstDate.getDayOfMonth());
-            day.setWeekday(firstDate.getDayOfWeek().getValue());
-
-
-            System.out.println(firstDate); //2019-03-28
-
-            firstDate = firstDate.plusDays(1);
-            preYear = firstDate.getYear();
-            preMonth = firstDate.getMonthValue();
-            preDay = firstDate.getDayOfMonth();
-        }
+        System.out.println(weekList);
     }
 }
