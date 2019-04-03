@@ -39,7 +39,6 @@ public class studyChapter02Tests {
     @Test
     public void studyChapter02_Test03() {
         List<StudyChapter02.Dish> menu = StudyChapter02.menu();
-
         //컬렉션 for-each 외부반복
         List<String> names1 = new ArrayList<>();
         for (StudyChapter02.Dish d : menu) {
@@ -65,7 +64,7 @@ public class studyChapter02Tests {
         List<StudyChapter02.Dish> menu = StudyChapter02.menu();
         //쇼트서킷, 루프퓨전
         List<String> names =
-                menu.stream() //중간연산
+                menu.stream() //중간연
                         .filter(d -> {
                             System.out.println("filtering : " + d.getName());
                             return d.getCalories() > 300;
