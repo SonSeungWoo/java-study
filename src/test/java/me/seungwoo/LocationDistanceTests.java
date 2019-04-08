@@ -23,6 +23,7 @@ public class LocationDistanceTests {
     @Test
     public void distanceTest() {
         // 마일(Mile) 단위
+        //LATITUDE:위도, LONGITUDE:경도
         double distanceMile =
                 distance(37.504198, 127.047967, 37.501025, 127.037701, "");
 
