@@ -1,5 +1,8 @@
 package me.seungwoo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,7 +51,7 @@ public class studyChapter02Tests {
         //컬렉션 내부적으로 숨겨졌던 반복자를 사용한 외부반복
         List<String> names2 = new ArrayList<>();
         Iterator<StudyChapter02.Dish> iterator = StudyChapter02.menu().iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             StudyChapter02.Dish dish = iterator.next();
             names2.add(dish.getName());
         }
@@ -76,5 +79,76 @@ public class studyChapter02Tests {
                         .limit(3)
                         .collect(Collectors.toList()); //최종연산
         System.out.println(names);
+    }
+
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class MappingData {
+        private String compCode;
+        private String hotelCode;
+    }
+
+    public enum VendorCode {
+
+        VENDOR_AMADEUS("15001"),
+        VENDOR_SABRE("15002"),
+        VENDOR_EXPEDIA("15003"),
+        VENDOR_HOTELBEDS("15004"),
+        VENDOR_FITRUUMS("15005");
+
+        private String vendorCode;
+
+        VendorCode(String vendorCode) {
+            this.vendorCode = vendorCode;
+        }
+
+        public String getVendorCode() {
+            return vendorCode;
+        }
+    }
+
+    private static final String VENDOR_AMADEUS = "15001";
+    private static final String VENDOR_SABRE = "15002";
+    private static final String VENDOR_EXPEDIA = "15003";
+    private static final String VENDOR_HOTELBEDS = "15004";
+    private static final String VENDOR_FITRUUMS = "15005";
+
+    @Test
+    public void studyChapter02_Test05() {
+
+        List<MappingData> dataList = new ArrayList<>();
+        dataList.add(new MappingData(VENDOR_AMADEUS, "1081451"));
+        dataList.add(new MappingData(VENDOR_SABRE, "1081462"));
+        dataList.add(new MappingData(VENDOR_EXPEDIA, "1050187"));
+        dataList.add(new MappingData(VENDOR_HOTELBEDS, "1050184"));
+        dataList.add(new MappingData(VENDOR_FITRUUMS, "1050185"));
+        //더좋은 방법...
+        MappingData data = dataList.stream()
+                .filter(d -> d.compCode.equals(VendorCode.VENDOR_EXPEDIA.getVendorCode()))
+                .findAny()
+                .orElse(
+                        dataList.stream()
+                                .filter(d -> d.compCode.equals(VendorCode.VENDOR_HOTELBEDS.getVendorCode()))
+                                .findAny()
+                                .orElse(
+                                        dataList.stream()
+                                                .filter(d -> d.compCode.equals(VendorCode.VENDOR_FITRUUMS.getVendorCode()))
+                                                .findAny()
+                                                .orElse(
+                                                        dataList.stream()
+                                                                .filter(d -> d.compCode.equals(VendorCode.VENDOR_AMADEUS.getVendorCode()))
+                                                                .findAny()
+                                                                .orElse(
+                                                                        dataList.stream()
+                                                                                .filter(d -> d.compCode.equals(VendorCode.VENDOR_SABRE.getVendorCode()))
+                                                                                .findAny()
+                                                                                .orElse(null)
+                                                                )
+                                                )
+                                )
+                );
+
     }
 }
