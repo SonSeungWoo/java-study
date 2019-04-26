@@ -3,6 +3,9 @@ package me.seungwoo;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +55,175 @@ public class CalendarController {
         double total = sw.getTotalTimeSeconds();
         log.info("TotalTimeSeconds : {}", total);
         return ResponseEntity.ok(totalDecemberData);
+    }
+
+    @GetMapping("/test")
+    public JSONObject test() throws ParseException {
+        JSONParser jsonParser = new JSONParser();
+        String madData = testData();
+        JSONObject jobj = (JSONObject) jsonParser.parse(madData);
+        return jobj;
+    }
+
+    public String testData(){
+        String data = "{\n" +
+                "    \"isSucceed\": true,\n" +
+                "    \"isWarning\": false,\n" +
+                "    \"error\": null,\n" +
+                "    \"warning\": null,\n" +
+                "    \"totalDurationTime\": 4.359,\n" +
+                "    \"vendorDurationTime\": 4.289,\n" +
+                "    \"trId\": \"6f2841d887064acc82547f8859484f4d\",\n" +
+                "    \"result\": {\n" +
+                "        \"carLocations\": [\n" +
+                "            {\n" +
+                "                \"address\": \"9000 AIRPORT BLVDLOS ANGELES AP 900450000US\",\n" +
+                "                \"companyCode\": \"ZE\",\n" +
+                "                \"companyName\": \"HERTZ\",\n" +
+                "                \"latitude\": 33.93333,\n" +
+                "                \"locationCode\": \"LAXT15\",\n" +
+                "                \"locationName\": \"\",\n" +
+                "                \"locationNameEn\": \"\",\n" +
+                "                \"locationTypeCode\": \"T\",\n" +
+                "                \"longitude\": -118.4,\n" +
+                "                \"openingHours\": [\n" +
+                "                    {\n" +
+                "                        \"beginTime\": \"00:01\",\n" +
+                "                        \"dayType\": \"Days of week\",\n" +
+                "                        \"dayValue\": 0,\n" +
+                "                        \"endTime\": \"00:00\"\n" +
+                "                    },\n" +
+                "                    {\n" +
+                "                        \"beginTime\": \"00:01\",\n" +
+                "                        \"dayType\": \"Days of week\",\n" +
+                "                        \"dayValue\": 0,\n" +
+                "                        \"endTime\": \"00:00\"\n" +
+                "                    },\n" +
+                "                    {\n" +
+                "                        \"beginTime\": \"00:01\",\n" +
+                "                        \"dayType\": \"Days of week\",\n" +
+                "                        \"dayValue\": 0,\n" +
+                "                        \"endTime\": \"00:00\"\n" +
+                "                    },\n" +
+                "                    {\n" +
+                "                        \"beginTime\": \"00:01\",\n" +
+                "                        \"dayType\": \"Days of week\",\n" +
+                "                        \"dayValue\": 0,\n" +
+                "                        \"endTime\": \"00:00\"\n" +
+                "                    },\n" +
+                "                    {\n" +
+                "                        \"beginTime\": \"00:01\",\n" +
+                "                        \"dayType\": \"Days of week\",\n" +
+                "                        \"dayValue\": 0,\n" +
+                "                        \"endTime\": \"00:00\"\n" +
+                "                    },\n" +
+                "                    {\n" +
+                "                        \"beginTime\": \"00:01\",\n" +
+                "                        \"dayType\": \"Days of week\",\n" +
+                "                        \"dayValue\": 0,\n" +
+                "                        \"endTime\": \"00:00\"\n" +
+                "                    },\n" +
+                "                    {\n" +
+                "                        \"beginTime\": \"00:01\",\n" +
+                "                        \"dayType\": \"Days of week\",\n" +
+                "                        \"dayValue\": 0,\n" +
+                "                        \"endTime\": \"00:00\"\n" +
+                "                    }\n" +
+                "                ],\n" +
+                "                \"vendorCompCode\": \"15001\"\n" +
+                "            }\n" +
+                "        ],\n" +
+                "        \"carRates\": [\n" +
+                "            {\n" +
+                "                \"accessLevel\": \"CP\",\n" +
+                "                \"baseRateTypeAmount\": 31.7,\n" +
+                "                \"baseRateTypeCode\": \"Daily\",\n" +
+                "                \"carModel\": \"Nissan Versa\",\n" +
+                "                \"carNo\": 1,\n" +
+                "                \"carTypeCode\": \"C\",\n" +
+                "                \"carTypeName\": \"\",\n" +
+                "                \"companyCode\": \"ZE\",\n" +
+                "                \"companyName\": \"HERTZ\",\n" +
+                "                \"confirmationStatus\": \"Available\",\n" +
+                "                \"corporateRateType\": \"RCT01\",\n" +
+                "                \"doorCount\": 4,\n" +
+                "                \"fareType\": \"VADD\",\n" +
+                "                \"fuelType\": \"N/A\",\n" +
+                "                \"guaranteeTypeCode\": \"GRT01\",\n" +
+                "                \"isAirConditioned\": true,\n" +
+                "                \"isCorporateRate\": false,\n" +
+                "                \"isInPolicy\": true,\n" +
+                "                \"isUnlimitedMileage\": true,\n" +
+                "                \"marketingInfo\": \"ADVENTURE D VADD\",\n" +
+                "                \"officeId\": \"SELK138AE\",\n" +
+                "                \"passengerCount\": 5,\n" +
+                "                \"photoName\": \"https://post-development.multimedia.testing.amadeus.com/mdc/retrieveCarItem?ctg=VEHICLE&prov=ZE&cnt=US&vehcat=CCAR&item=0&stamp=VEHICLE_0_0_1537784032018&file=5.JPEG\",\n" +
+                "                \"pickupAirportCode\": \"LAX\",\n" +
+                "                \"pickupAirportTerminal\": \"ALL\",\n" +
+                "                \"pickupDateTime\": \"2019-11-06 10:00:00\",\n" +
+                "                \"pickupLocationCode\": \"LAXT15\",\n" +
+                "                \"pickupLocationName\": \"\",\n" +
+                "                \"pickupLocationNameEn\": \"\",\n" +
+                "                \"pickupLocationTypeCode\": \"T\",\n" +
+                "                \"pickupShuttleTypeCode\": \"AS\",\n" +
+                "                \"pickupShuttleTypeName\": \"\",\n" +
+                "                \"rateCategoryCode\": \"024\",\n" +
+                "                \"rateIdentifier\": \"G0DYLJ4Q02\",\n" +
+                "                \"referenceCode\": \"JRTAJ5VLG3EGWNUWE0YO\",\n" +
+                "                \"referenceNumber\": \"\",\n" +
+                "                \"referenceQualifier\": \"VADD\",\n" +
+                "                \"returnAirportCode\": \"LAX\",\n" +
+                "                \"returnAirportTerminal\": \"ALL\",\n" +
+                "                \"returnDateTime\": \"2019-11-07 10:00:00\",\n" +
+                "                \"returnLocationCode\": \"LAXT15\",\n" +
+                "                \"returnLocationName\": \"\",\n" +
+                "                \"returnLocationNameEn\": \"\",\n" +
+                "                \"returnLocationTypeCode\": \"T\",\n" +
+                "                \"returnShuttleTypeCode\": \"AS\",\n" +
+                "                \"returnShuttleTypeName\": \"\",\n" +
+                "                \"sippCode\": \"CCAR\",\n" +
+                "                \"sortKey\": \"ZE:C:Automatic:\",\n" +
+                "                \"transmissionType\": \"Automatic\",\n" +
+                "                \"validMinutes\": 5,\n" +
+                "                \"validType\": \"DLD\",\n" +
+                "                \"vehicleName\": \"Nissan Versa\",\n" +
+                "                \"vehicleTypeOwner\": \"ACR\",\n" +
+                "                \"vendorCompCode\": \"15001\",\n" +
+                "                \"vendorCurrencyCode\": \"USD\",\n" +
+                "                \"vendorTotalAmount\": 31.7\n" +
+                "            }\n" +
+                "        ],\n" +
+                "        \"filterData\": {\n" +
+                "            \"carCompanies\": [\n" +
+                "                {\n" +
+                "                    \"code\": \"ZE\",\n" +
+                "                    \"name\": \"HERTZ\"\n" +
+                "                }\n" +
+                "            ],\n" +
+                "            \"carTypes\": [\n" +
+                "                {\n" +
+                "                    \"code\": \"C\",\n" +
+                "                    \"name\": \"\"\n" +
+                "                }\n" +
+                "            ],\n" +
+                "            \"pickupLocations\": [\n" +
+                "                {\n" +
+                "                    \"code\": \"LAXT15\",\n" +
+                "                    \"name\": \"\",\n" +
+                "                    \"type\": \"T\"\n" +
+                "                }\n" +
+                "            ],\n" +
+                "            \"returnLocations\": [\n" +
+                "                {\n" +
+                "                    \"code\": \"LAXT15\",\n" +
+                "                    \"name\": \"\",\n" +
+                "                    \"type\": \"T\"\n" +
+                "                }\n" +
+                "            ]\n" +
+                "        }\n" +
+                "    }\n" +
+                "}";
+        return data;
     }
 
     //1년 데이터
