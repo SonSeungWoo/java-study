@@ -7,9 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -167,5 +169,12 @@ public class StudyChapter03Tests {
         long menuCount = StudyChapter02.menu().stream().count();
         logger.debug("sum1 : {}, sum2 : {}, sum3 : {}, " +
                 "count : {}, menuCount : {}", sum1, sum2, sum3, count, menuCount);
+    }
+
+    @Test
+    public void manifoldTest() throws IOException {
+        Properties myProperties = new Properties();
+        myProperties.load(getClass().getResourceAsStream("/application.properties"));
+        String myMessage = myProperties.getProperty("my.message");
     }
 }
