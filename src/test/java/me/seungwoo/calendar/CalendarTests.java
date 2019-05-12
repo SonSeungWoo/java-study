@@ -1,4 +1,4 @@
-package me.seungwoo;
+package me.seungwoo.calendar;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

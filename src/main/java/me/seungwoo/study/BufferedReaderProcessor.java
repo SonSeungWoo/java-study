@@ -1,4 +1,4 @@
-package me.seungwoo;
+package me.seungwoo.study;
 
 import java.io.BufferedReader;
 import java.io.IOException;

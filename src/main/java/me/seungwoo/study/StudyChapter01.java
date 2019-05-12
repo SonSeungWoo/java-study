@@ -1,6 +1,6 @@
-package me.seungwoo;
+package me.seungwoo.study;
 
-import com.sun.xml.internal.xsom.impl.util.Uri;
+import me.seungwoo.Person;
 
 import java.io.BufferedReader;
 import java.io.File;

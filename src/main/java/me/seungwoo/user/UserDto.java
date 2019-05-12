@@ -1,4 +1,4 @@
-package me.seungwoo;
+package me.seungwoo.user;
 
 import lombok.Data;
 

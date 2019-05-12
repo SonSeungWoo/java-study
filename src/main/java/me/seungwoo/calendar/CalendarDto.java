@@ -1,4 +1,4 @@
-package me.seungwoo;
+package me.seungwoo.calendar;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +10,10 @@ import java.util.List;
 /**
  * Created by Leo.
  * User: ssw
- * Date: 2019-03-27
- * Time: 14:37
+ * Date: 2019-04-02
+ * Time: 15:01
  */
-public class CalendarTestDto {
+public class CalendarDto {
 
     //현재+1일 부터 1년치 달력 데이터
     @Data
@@ -50,5 +50,12 @@ public class CalendarTestDto {
         private Boolean isHoliday;
         private int weekday;
         private String holidayName;
+    }
+
+    @Data
+    public static class HolidayDate {
+        private String date;
+        private String name;
+        private String category; //sundry, holiday, divisions
     }
 }

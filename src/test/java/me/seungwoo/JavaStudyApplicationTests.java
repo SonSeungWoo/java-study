@@ -1,5 +1,6 @@
 package me.seungwoo;
 
+import me.seungwoo.study.StudyChapter01;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;

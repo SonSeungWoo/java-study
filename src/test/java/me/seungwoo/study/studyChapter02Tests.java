@@ -3,8 +3,7 @@ package me.seungwoo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.json.JSONException;
-import org.json.JSONObject;
+import me.seungwoo.study.StudyChapter02;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -151,124 +150,6 @@ public class studyChapter02Tests {
                                                 )
                                 )
                 );
-
-    }
-
-    @Test
-    public void test() throws JSONException {
-        String data =  "{\"carLocations\":[  \n" +
-                "   {  \n" +
-                "      \"address\":\"string\",\n" +
-                "      \"companyCode\":\"string\",\n" +
-                "      \"companyName\":\"string\",\n" +
-                "      \"latitude\":0,\n" +
-                "      \"locationCode\":\"string\",\n" +
-                "      \"locationName\":\"string\",\n" +
-                "      \"locationNameEn\":\"string\",\n" +
-                "      \"locationTypeCode\":\"string\",\n" +
-                "      \"longitude\":0,\n" +
-                "      \"openingHours\":[  \n" +
-                "         {  \n" +
-                "            \"beginTime\":\"string\",\n" +
-                "            \"dayType\":\"string\",\n" +
-                "            \"dayValue\":0,\n" +
-                "            \"endTime\":\"string\"\n" +
-                "         }\n" +
-                "      ],\n" +
-                "      \"vendorCompCode\":\"string\"\n" +
-                "   }\n" +
-                "],\n" +
-                "\"carRates\":[  \n" +
-                "   {  \n" +
-                "      \"accessLevel\":\"string\",\n" +
-                "      \"baseRateTypeAmount\":0,\n" +
-                "      \"baseRateTypeCode\":\"string\",\n" +
-                "      \"carModel\":\"string\",\n" +
-                "      \"carNo\":0,\n" +
-                "      \"carTypeCode\":\"string\",\n" +
-                "      \"carTypeName\":\"string\",\n" +
-                "      \"companyCode\":\"string\",\n" +
-                "      \"companyName\":\"string\",\n" +
-                "      \"confirmationStatus\":\"string\",\n" +
-                "      \"corporateRateType\":\"string\",\n" +
-                "      \"doorCount\":0,\n" +
-                "      \"fareType\":\"string\",\n" +
-                "      \"fuelType\":\"string\",\n" +
-                "      \"guaranteeTypeCode\":\"string\",\n" +
-                "      \"isAirConditioned\":true,\n" +
-                "      \"isCorporateRate\":true,\n" +
-                "      \"isInPolicy\":true,\n" +
-                "      \"isUnlimitedMileage\":true,\n" +
-                "      \"marketingInfo\":\"string\",\n" +
-                "      \"officeId\":\"string\",\n" +
-                "      \"passengerCount\":0,\n" +
-                "      \"photoName\":\"string\",\n" +
-                "      \"pickupAirportCode\":\"string\",\n" +
-                "      \"pickupAirportTerminal\":\"string\",\n" +
-                "      \"pickupDateTime\":\"string\",\n" +
-                "      \"pickupLocationCode\":\"string\",\n" +
-                "      \"pickupLocationName\":\"string\",\n" +
-                "      \"pickupLocationNameEn\":\"string\",\n" +
-                "      \"pickupLocationTypeCode\":\"string\",\n" +
-                "      \"pickupShuttleTypeCode\":\"string\",\n" +
-                "      \"pickupShuttleTypeName\":\"string\",\n" +
-                "      \"rateCategoryCode\":\"string\",\n" +
-                "      \"rateIdentifier\":\"string\",\n" +
-                "      \"referenceCode\":\"string\",\n" +
-                "      \"referenceNumber\":\"string\",\n" +
-                "      \"referenceQualifier\":\"string\",\n" +
-                "      \"returnAirportCode\":\"string\",\n" +
-                "      \"returnAirportTerminal\":\"string\",\n" +
-                "      \"returnDateTime\":\"string\",\n" +
-                "      \"returnLocationCode\":\"string\",\n" +
-                "      \"returnLocationName\":\"string\",\n" +
-                "      \"returnLocationNameEn\":\"string\",\n" +
-                "      \"returnLocationTypeCode\":\"string\",\n" +
-                "      \"returnShuttleTypeCode\":\"string\",\n" +
-                "      \"returnShuttleTypeName\":\"string\",\n" +
-                "      \"sippCode\":\"string\",\n" +
-                "      \"sortKey\":\"string\",\n" +
-                "      \"transmissionType\":\"string\",\n" +
-                "      \"validMinutes\":0,\n" +
-                "      \"validType\":\"string\",\n" +
-                "      \"vehicleName\":\"string\",\n" +
-                "      \"vehicleTypeOwner\":\"string\",\n" +
-                "      \"vendorCompCode\":\"string\",\n" +
-                "      \"vendorCurrencyCode\":\"string\",\n" +
-                "      \"vendorTotalAmount\":0\n" +
-                "   }\n" +
-                "],\n" +
-                "\"filterData\":{  \n" +
-                "   \"carCompanies\":[  \n" +
-                "      {  \n" +
-                "         \"code\":\"string\",\n" +
-                "         \"name\":\"string\"\n" +
-                "      }\n" +
-                "   ],\n" +
-                "   \"carTypes\":[  \n" +
-                "      {  \n" +
-                "         \"code\":\"string\",\n" +
-                "         \"name\":\"string\"\n" +
-                "      }\n" +
-                "   ],\n" +
-                "   \"pickupLocations\":[  \n" +
-                "      {  \n" +
-                "         \"code\":\"string\",\n" +
-                "         \"name\":\"string\",\n" +
-                "         \"type\":\"string\"\n" +
-                "      }\n" +
-                "   ],\n" +
-                "   \"returnLocations\":[  \n" +
-                "      {  \n" +
-                "         \"code\":\"string\",\n" +
-                "         \"name\":\"string\",\n" +
-                "         \"type\":\"string\"\n" +
-                "      }\n" +
-                "   ]\n" +
-                "}\n" +
-                "}\n";
-        JSONObject jsonObj = new JSONObject(data);
-        System.out.println(jsonObj);
 
     }
 }

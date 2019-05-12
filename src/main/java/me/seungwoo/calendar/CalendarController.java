@@ -1,4 +1,4 @@
-package me.seungwoo;
+package me.seungwoo.calendar;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
