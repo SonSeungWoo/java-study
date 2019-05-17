@@ -30,7 +30,6 @@ public class LocalDateTests {
     public void dateTest(){
         User user = new User("seungwoo", "seung0000",
                 "seungwoo@test.co.kr", LocalDate.now());
-        System.out.println(user.toString());
         UserDto userDto = objectMapper.convertValue(user, UserDto.class);
         System.out.println(userDto);
     }
