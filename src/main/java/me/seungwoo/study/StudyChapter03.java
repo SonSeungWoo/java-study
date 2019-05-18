@@ -1,5 +1,9 @@
 package me.seungwoo.study;
 
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -12,6 +16,8 @@ import static java.util.stream.Collectors.*;
  * Time: 13:54
  */
 public class StudyChapter03 {
+
+    private static final Logger logger = LoggerFactory.getLogger(StudyChapter03.class);
 
     public static void main(String[] args) {
         long howManyDishes1 = DishDto.menu().stream().collect(Collectors.counting());
@@ -26,11 +32,11 @@ public class StudyChapter03 {
         double avgCalories = DishDto.menu().stream().collect(averagingDouble(DishDto.Dish::getCalories));
         //합계, 평균, 요소수, 최대값, 최소값
         IntSummaryStatistics menuStatistics = DishDto.menu().stream().collect(summarizingInt(DishDto.Dish::getCalories));
-        System.out.println(menuStatistics);
+        logger.debug("menuStatistics : {}", menuStatistics);
 
         //문자열 연결
         String shortMenu1 = DishDto.menu().stream().map(DishDto.Dish::getName).collect(joining(", "));
-        System.out.println(shortMenu1);
+        logger.debug("shortMenu1 : {}", shortMenu1);
 
         //reducing
         //첫번째 인수는 리듀싱 연산의 시작값이거나 스트림에 인수가 없을 때 반환값
@@ -38,7 +44,7 @@ public class StudyChapter03 {
         //세번째 인수는 같은 종류의 두 항목을 하나의 값으로 더하는 BinaryOperator. 두개의 int 사용
         int totalCaloriesReducing = DishDto.menu().stream()
                 .collect(reducing(0, DishDto.Dish::getCalories, (i, j) -> i + j));
-        System.out.println(totalCaloriesReducing);
+        logger.debug("totalCaloriesReducing : {}", totalCaloriesReducing);
 
         //한개의 인수를 가지고 최대값 구하기
         Optional<DishDto.Dish> mostCalorieDish = DishDto.menu().stream()
@@ -48,7 +54,7 @@ public class StudyChapter03 {
         Map<DishDto.Type, List<DishDto.Dish>> dishesByType = DishDto.menu()
                 .stream()
                 .collect(groupingBy(DishDto.Dish::getType));
-        System.out.println(dishesByType);
+        logger.debug("dishesByType : {}", dishesByType);
 
         //다수준 그룹화
         Map<DishDto.Type, Map<DishDto.CaloricLevel, List<DishDto.Dish>>> dishesByTypeCalroricLevel = DishDto.menu()
@@ -65,20 +71,20 @@ public class StudyChapter03 {
                                     }
                                 }))
                 );
-        System.out.println(dishesByTypeCalroricLevel);
+        logger.debug("dishesByTypeCalroricLevel : {}", dishesByTypeCalroricLevel);
 
         //서브그룹
         //groupingBy(f) 는 groupingBy(f, toList())의 축양형이다.
         Map<DishDto.Type, Long> typesCount = DishDto.menu()
                 .stream()
                 .collect(groupingBy(DishDto.Dish::getType, counting()));
-        System.out.println(typesCount);
+        logger.debug("typesCount : {}",typesCount);
 
         //type별로 가장높은칼로리 찾음
         Map<DishDto.Type, Optional<DishDto.Dish>> mostCaloricByType = DishDto.menu()
                 .stream()
                 .collect(groupingBy(DishDto.Dish::getType, maxBy(Comparator.comparingInt(DishDto.Dish::getCalories))));
-        System.out.println("mostCaloricByType : " + mostCaloricByType);
+        logger.debug("mostCaloricByType : {}", mostCaloricByType);
 
         //1.collect는 점선으로 표시되어 있으며 groupingBy는 가장 바깥쪽에 위치하면서 요리의 종류에
         //따라 메뉴 스트림을 세개의 서브스트림으로 그룹화 한다.
@@ -96,7 +102,7 @@ public class StudyChapter03 {
                         collectingAndThen(
                                 maxBy(Comparator.comparingInt(DishDto.Dish::getCalories)),
                                 Optional::get)));
-        System.out.println("mostCaloricByType2 : " + mostCaloricByType2);
+        logger.debug("mostCaloricByType2 : {}", mostCaloricByType2);
     }
     
 }
