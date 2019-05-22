@@ -6,6 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.util.StopWatch;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by Leo.
@@ -26,6 +33,31 @@ public class LocationDistanceTests {
         double distanceKiloMeter =
                 calDistance(37.504198, 127.047967, 37.501025, 127.037701);
         logger.info("distanceKiloMeter : {}", distanceKiloMeter);
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        Locale[] cosas = Locale.getAvailableLocales();
+        for (int i = 0; i < cosas.length; i++) {
+            String[] lang = String.valueOf(cosas[i]).split("_");
+            if(lang.length > 1){
+                if(lang[1].equals("KR")){
+                    logger.info("cosas : {}",cosas[i]);
+                    logger.info("lang {} :,  CON {}",lang[0], lang[1]);
+                }
+            }
+        }
+        stopWatch.stop();
+        logger.info("start : {}", stopWatch.getTotalTimeSeconds());
+
+        List<Locale> cosasList = Arrays.asList(Locale.getAvailableLocales()).stream().filter(lang -> lang.getCountry().equals("US"))
+                .collect(Collectors.toList());
+        Locale language = Locale.getDefault();
+        if(!cosasList.isEmpty()){
+            language = Optional.ofNullable(cosasList.get(0)).orElse(Locale.getDefault());
+        }
+        logger.info("Language : {}",language.getLanguage());
+        logger.info("Country : {}",language.getCountry());
+
     }
 
     // This function converts decimal degrees to radians
