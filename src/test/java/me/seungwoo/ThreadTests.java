@@ -5,9 +5,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -87,4 +89,12 @@ public class ThreadTests {
         assertEquals((lastNum + firstNum) * lastNum / 2, actualTotal);
     }
 
+    @Test
+    public void test(){
+        System.out.println(Locale.KOREA);
+        Locale locale = new Locale("ko", "KR");
+        Currency currency = Currency.getInstance(locale);
+        System.out.println(currency.getCurrencyCode());
+        System.out.println(currency.getNumericCode());
+    }
 }
