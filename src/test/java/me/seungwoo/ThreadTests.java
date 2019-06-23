@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -91,10 +92,38 @@ public class ThreadTests {
 
     @Test
     public void test(){
-        System.out.println(Locale.KOREA);
+        /*System.out.println(Locale.KOREA);
         Locale locale = new Locale("ko", "KR");
         Currency currency = Currency.getInstance(locale);
         System.out.println(currency.getCurrencyCode());
-        System.out.println(currency.getNumericCode());
+        System.out.println(currency.getNumericCode());*/
+        String locale = "ko_KR";
+        String[] array = locale.split("_");
+        System.out.println(array.length);
+        String language = array.length > 0 ? array[0] : "ko";
+        String country = array.length > 1 ? array[1] : "KR";
+        Currency currency = Currency.getInstance(new Locale(language, country));
+        System.out.println(currency);
+    }
+
+    @Test
+    public void 시간비교(){
+        String costTime = "70";
+        String pickTime = "01:00";
+        String time = "23:50";
+
+        int costMin = Integer.parseInt(costTime);
+        int pickMin = getMinute(pickTime);
+        int timeMin = getMinute(time);
+
+        System.out.println(pickMin - costMin <= timeMin);
+    }
+
+    private int getMinute(String strTime){
+        String[] array = strTime.split(":");
+        int hour = Integer.parseInt(array.length > 0 ? array[0] : "0");
+        int minute = Integer.parseInt(array.length > 1 ? array[1] : "0");
+        int time = (hour * 60) + minute;
+        return time;
     }
 }
