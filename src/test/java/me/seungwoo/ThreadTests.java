@@ -10,6 +10,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
@@ -109,21 +111,23 @@ public class ThreadTests {
     @Test
     public void 시간비교(){
         String costTime = "70";
-        String pickTime = "01:00";
-        String time = "23:50";
-
+        String pickStr = "03:00";
+        String timeStr = "03:01";
         int costMin = Integer.parseInt(costTime);
-        int pickMin = getMinute(pickTime);
-        int timeMin = getMinute(time);
+        int pickTime = getTime(pickStr);
+        int timeTime = getTime(timeStr);
 
-        System.out.println(pickMin - costMin <= timeMin);
+        System.out.println(pickTime - costMin <= timeTime && timeTime < pickTime);
+
+
     }
 
-    private int getMinute(String strTime){
+    private int getTime(String strTime){
         String[] array = strTime.split(":");
         int hour = Integer.parseInt(array.length > 0 ? array[0] : "0");
         int minute = Integer.parseInt(array.length > 1 ? array[1] : "0");
-        int time = (hour * 60) + minute;
-        return time;
+        LocalTime targetTime =  LocalTime.of(hour, minute);
+        int min = (targetTime.getHour() * 60) + targetTime.getMinute();
+        return min;
     }
 }
