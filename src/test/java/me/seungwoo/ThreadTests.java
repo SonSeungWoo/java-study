@@ -110,15 +110,14 @@ public class ThreadTests {
 
     @Test
     public void 시간비교(){
-        String costTime = "70";
+        String costTime = null;
         String pickStr = "03:00";
         String timeStr = "03:01";
-        int costMin = Integer.parseInt(costTime);
+        int costMin = Integer.parseInt(Optional.ofNullable(costTime).orElse("0"));
         int pickTime = getTime(pickStr);
-        int timeTime = getTime(timeStr);
+        int compareTime = getTime(timeStr);
 
-        System.out.println(pickTime - costMin <= timeTime && timeTime < pickTime);
-
+        System.out.println(pickTime - costMin <= compareTime && compareTime < pickTime);
 
     }
 
