@@ -27,11 +27,11 @@ public class Minesweeper {
         //주변지뢰 카운팅
         for (int i = 0; i < square.length; i++) {
             for (int j = 0; j < square[i].length; j++) {
-                if ("*".equals(square[i][j])) continue; // 현재 위치가 지뢰일경우
+                if ("*".equals(square[i][j])) continue;
                 int count = 0;
                 for (int k = i - 1; k <= i + 1; k++) {
                     for (int h = j - 1; h <= j + 1; h++) {
-                        if (k == -1 || k == size || h == -1 || h == size) continue; //현재 내위치 이거나 사각형 범위 넘어갈 경우
+                        if (k < 0 || k == size || h < 0 || h == size) continue;
                         if ("*".equals(square[k][h])) count++;
                     }
                 }
