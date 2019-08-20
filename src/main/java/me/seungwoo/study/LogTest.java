@@ -24,7 +24,7 @@ public class LogTest {
     public static void main(String[] args) throws IOException {
         Pattern p = Pattern.compile("\\[(.*?)\\]");
         List<LogDto> logList = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader("/Users/traport/Downloads/test/input.log"));
+        BufferedReader br = new BufferedReader(new FileReader("../../Downloads/test/input.log"));
         while (!isEmpty(br.readLine())) {
             String s = br.readLine();
             Matcher m = p.matcher(s);
@@ -51,7 +51,7 @@ public class LogTest {
      * @param logList
      */
     public static void logWriter(List<LogDto> logList) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter("/Users/traport/Downloads/test/output.log"));
+        BufferedWriter bw = new BufferedWriter(new FileWriter("../../Downloads/test/output.log"));
         StringBuilder sb = new StringBuilder();
 
         //상위 3개
