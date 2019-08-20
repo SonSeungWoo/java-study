@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Leo.
@@ -70,6 +72,26 @@ public class AlgorithmTests {
                 System.out.println("종료");
                 break;
             }
+        }
+    }
+
+    @Test
+    public void comparePrice() {
+        int tolerance = 3;
+        Double price1 = 352000.00;
+        Double price2 = 382000.00;
+        Double tolerancePrice = (price1 * tolerance) / 100;
+        boolean test = price1 >= price2 - tolerancePrice;
+        System.out.println(test);
+    }
+
+    @Test
+    public void test001() {
+        String str = "Wh9Beb1rEDhQjSbW3x5GaxTJzVGL";
+        String result[] = str.split("\\|");
+        System.out.println(result.length);
+        for (int i = 0; i < result.length; i++) {
+            System.out.println("result[" + i + "] : " + result[i]);
         }
     }
 }
