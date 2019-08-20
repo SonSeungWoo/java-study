@@ -1,12 +1,5 @@
 package me.seungwoo.study;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
-
 import java.io.*;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -28,13 +21,11 @@ import static java.util.stream.Collectors.groupingBy;
  */
 public class LogTest {
 
-    private static Logger logger = LoggerFactory.getLogger(LogTest.class);
-
     public static void main(String[] args) throws IOException {
         Pattern p = Pattern.compile("\\[(.*?)\\]");
         List<LogDto> logList = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader("/Users/traport/Downloads/test/input.log"));
-        while (!StringUtils.isEmpty(br.readLine())) {
+        while (!isEmpty(br.readLine())) {
             String s = br.readLine();
             Matcher m = p.matcher(s);
             List<String> list = new ArrayList<>();
@@ -113,15 +104,48 @@ public class LogTest {
         return map;
     }
 
+    public static boolean isEmpty(Object str) {
+        return str == null || "".equals(str);
+    }
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
+
     public static class LogDto {
         private String statusCode;
         private String requestUrl;
         private String browser;
         private String dateTime;
+
+        public String getStatusCode() {
+            return statusCode;
+        }
+
+        public void setStatusCode(String statusCode) {
+            this.statusCode = statusCode;
+        }
+
+        public String getRequestUrl() {
+            return requestUrl;
+        }
+
+        public void setRequestUrl(String requestUrl) {
+            this.requestUrl = requestUrl;
+        }
+
+        public String getBrowser() {
+            return browser;
+        }
+
+        public void setBrowser(String browser) {
+            this.browser = browser;
+        }
+
+        public String getDateTime() {
+            return dateTime;
+        }
+
+        public void setDateTime(String dateTime) {
+            this.dateTime = dateTime;
+        }
     }
 }
 
