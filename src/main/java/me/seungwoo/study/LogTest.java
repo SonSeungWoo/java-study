@@ -8,8 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -74,6 +76,10 @@ public class LogTest {
 
         bw.write(sb.toString());
         bw.close();
+        URL aURL = new URL("http://apis.daum.net/search/image?apikey=2jdc&q=daum");
+        Map<String, String> map = getQueryMap(aURL.getQuery());
+        System.out.println("test");
+
     }
 
     /**
@@ -89,6 +95,24 @@ public class LogTest {
         String percent = decimalFormat.format((count / total) * 100);
         return percent;
     }
+
+    /**
+     * URL에서 파라미터를 파싱한다.
+     *
+     * @param query
+     * @return
+     */
+    public static Map<String, String> getQueryMap(String query) {
+        String[] params = query.split("&");
+        Map<String, String> map = new HashMap<>();
+        for (String param : params) {
+            String name = param.split("=")[0];
+            String value = param.split("=")[1];
+            if (name.equals("apikey") || name.equals("q")) map.put(name, value);
+        }
+        return map;
+    }
+
 
     @Data
     @AllArgsConstructor
