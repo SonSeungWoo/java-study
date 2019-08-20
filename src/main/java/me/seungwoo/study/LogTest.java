@@ -21,6 +21,14 @@ import static java.util.stream.Collectors.groupingBy;
  */
 public class LogTest {
 
+    /**
+     * 최다호출횟수 최대200인것만 카운트 apikey
+     * 상위 3개 service id
+     * 브라우저 점유율
+     *
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         Pattern p = Pattern.compile("\\[(.*?)\\]");
         List<LogDto> logList = new ArrayList<>();
@@ -67,6 +75,8 @@ public class LogTest {
 
         bw.write(sb.toString());
         bw.close();
+
+        //apikey 최다호출 상태코드 200인것만 카운트, search/ 뒤에붙는 서비스아이디
         URL aURL = new URL("http://apis.daum.net/search/image?apikey=2jdc&q=daum");
         Map<String, String> map = getQueryMap(aURL.getQuery());
         System.out.println("test");
@@ -81,7 +91,7 @@ public class LogTest {
      * @return
      */
     public static String browserPercent(double count, double total) {
-        String dispPattern = "0.##";
+        String dispPattern = "0";
         DecimalFormat decimalFormat = new DecimalFormat(dispPattern);
         String percent = decimalFormat.format((count / total) * 100);
         return percent;
