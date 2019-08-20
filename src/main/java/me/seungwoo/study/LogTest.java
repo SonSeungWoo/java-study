@@ -3,11 +3,11 @@ package me.seungwoo.study;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +26,8 @@ import static java.util.stream.Collectors.groupingBy;
  */
 public class LogTest {
 
+    private static Logger logger = LoggerFactory.getLogger(LogTest.class);
+
     public static void main(String[] args) throws IOException {
         Pattern p = Pattern.compile("\\[(.*?)\\]");
         List<LogDto> logList = new ArrayList<>();
@@ -42,27 +44,50 @@ public class LogTest {
             logDto.setStatusCode(list.get(0));
             logDto.setRequestUrl(list.get(1));
             logDto.setBrowser(list.get(2));
-            logDto.setRequestTime(list.get(3));
+            logDto.setDateTime(list.get(3));
             logList.add(logDto);
             //여기까지 수정
         }
         br.close();
+        logWriter(logList);
+    }
+
+    /**
+     * 로그분석후 파일생성
+     *
+     * @param logList
+     */
+    public static void logWriter(List<LogDto> logList) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter("/Users/traport/Downloads/test/output.log"));
+        StringBuilder sb = new StringBuilder();
 
         //상위 3개
         Map<String, Long> codeCount = logList.stream().collect(groupingBy(LogDto::getStatusCode, counting()));
         codeCount.entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue()
-                        .reversed()).limit(3).forEachOrdered(e -> System.out.println(e.getKey() + "=" + e.getValue()));
+                        .reversed()).limit(3).forEachOrdered(it -> sb.append(it.getKey() + "=" + it.getValue() + "\n"));
 
         //브라우저 점유율
-        String dispPattern = "0.##";
-        DecimalFormat format = new DecimalFormat(dispPattern);
         Map<String, Long> browserCount = logList.stream().collect(groupingBy(LogDto::getBrowser, counting()));
-        browserCount.forEach((browser, count) -> System.out.println(browser + "=" + format.format((double) count / (double) logList.size() * 100)));
+        browserCount.forEach((browser, count) -> sb.append(browser + "=" + browserPercent(count, logList.size()) + "\n"));
+        //url 검사 best 파라미터 apikey 또는 q 필수
 
-        //url 검사
-        //apikey 또는 q 필수
+        bw.write(sb.toString());
+        bw.close();
+    }
 
+    /**
+     * 브라우저 점유율
+     *
+     * @param count
+     * @param total
+     * @return
+     */
+    public static String browserPercent(double count, double total) {
+        String dispPattern = "0.##";
+        DecimalFormat decimalFormat = new DecimalFormat(dispPattern);
+        String percent = decimalFormat.format((count / total) * 100);
+        return percent;
     }
 
     @Data
@@ -72,7 +97,7 @@ public class LogTest {
         private String statusCode;
         private String requestUrl;
         private String browser;
-        private String requestTime;
+        private String dateTime;
     }
 }
 
