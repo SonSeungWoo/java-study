@@ -50,7 +50,12 @@ public class LogTest {
             //여기까지 수정
         }
         br.close();
-        logWriter(logList);
+        //logWriter(logList);
+
+        URL aURL = new URL("http://apis.daum.net/search/image?apikey=2jdc&q=daum");
+        String param = aURL.getPath().replace("/","").replace("search","");
+        System.out.println(param);
+
     }
 
     /**
