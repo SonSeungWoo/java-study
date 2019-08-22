@@ -4,7 +4,6 @@ import java.io.*;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -25,6 +24,7 @@ public class LogTest {
      * 최다호출횟수 최대200인것만 카운트 apikey
      * 상위 3개 service id
      * 브라우저 점유율
+     * url 검사 best 파라미터 apikey 또는 q 필수
      *
      * @param args
      * @throws IOException
@@ -46,16 +46,14 @@ public class LogTest {
             logDto.setRequestUrl(list.get(1));
             logDto.setBrowser(list.get(2));
             logDto.setDateTime(list.get(3));
+            URL url = new URL(logDto.getRequestUrl());
+            logDto.setServiceId(url.getPath().replace("/", "").replace("search", ""));
+            if (!isEmpty(url.getQuery())) logDto.setApiKey(getApiKey(url.getQuery()));
             logList.add(logDto);
             //여기까지 수정
         }
         br.close();
-        //logWriter(logList);
-
-        URL aURL = new URL("http://apis.daum.net/search/image?apikey=2jdc&q=daum");
-        String param = aURL.getPath().replace("/","").replace("search","");
-        System.out.println(param);
-
+        logWriter(logList);
     }
 
     /**
@@ -67,25 +65,34 @@ public class LogTest {
         BufferedWriter bw = new BufferedWriter(new FileWriter("../../Downloads/test/output.log"));
         StringBuilder sb = new StringBuilder();
 
-        //상위 3개
-        Map<String, Long> codeCount = logList.stream().collect(groupingBy(LogDto::getStatusCode, counting()));
+        //apikey 최다호출
+        sb.append("apikey 최다호출" + "\n");
+        Map<String, Long> apiKeyCount = logList.stream()
+                .filter(it -> it.getStatusCode().equals("200") && !isEmpty(it.getApiKey()))
+                .collect(groupingBy(LogDto::getApiKey, counting()));
+
+        apiKeyCount.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue()
+                        .reversed()).limit(1).forEachOrdered(it -> sb.append(it.getKey() + "=" + it.getValue() + "\n"));
+        sb.append("\n");
+
+        //서비스아이디 순위 호출 카운트
+        sb.append("서비스아이디 순위 호출 카운트" + "\n");
+        Map<String, Long> codeCount = logList.stream()
+                .collect(groupingBy(LogDto::getServiceId, counting()));
+
         codeCount.entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue()
-                        .reversed()).limit(3).forEachOrdered(it -> sb.append(it.getKey() + "=" + it.getValue() + "\n"));
+                        .reversed()).forEachOrdered(it -> sb.append(it.getKey() + "=" + it.getValue() + "\n"));
+        sb.append("\n");
 
         //브라우저 점유율
+        sb.append("브라우저 점유율" + "\n");
         Map<String, Long> browserCount = logList.stream().collect(groupingBy(LogDto::getBrowser, counting()));
         browserCount.forEach((browser, count) -> sb.append(browser + "=" + browserPercent(count, logList.size()) + "\n"));
-        //url 검사 best 파라미터 apikey 또는 q 필수
 
         bw.write(sb.toString());
         bw.close();
-
-        //apikey 최다호출 상태코드 200인것만 카운트, search/ 뒤에붙는 서비스아이디
-        URL aURL = new URL("http://apis.daum.net/search/image?apikey=2jdc&q=daum");
-        Map<String, String> map = getQueryMap(aURL.getQuery());
-        System.out.println("test");
-
     }
 
     /**
@@ -98,25 +105,19 @@ public class LogTest {
     public static String browserPercent(double count, double total) {
         String dispPattern = "0";
         DecimalFormat decimalFormat = new DecimalFormat(dispPattern);
-        String percent = decimalFormat.format((count / total) * 100);
+        String percent = decimalFormat.format((count / total) * 100) + "%";
         return percent;
     }
 
-    /**
-     * URL에서 파라미터를 파싱한다.
-     *
-     * @param query
-     * @return
-     */
-    public static Map<String, String> getQueryMap(String query) {
+    public static String getApiKey(String query) {
         String[] params = query.split("&");
-        Map<String, String> map = new HashMap<>();
+        String apiKey = null;
         for (String param : params) {
             String name = param.split("=")[0];
             String value = param.split("=")[1];
-            if (name.equals("apikey") || name.equals("q")) map.put(name, value);
+            if (name.equals("apikey")) apiKey = value;
         }
-        return map;
+        return apiKey;
     }
 
     public static boolean isEmpty(Object str) {
@@ -129,6 +130,17 @@ public class LogTest {
         private String requestUrl;
         private String browser;
         private String dateTime;
+        private String serviceId;
+
+        public String getApiKey() {
+            return apiKey;
+        }
+
+        public void setApiKey(String apiKey) {
+            this.apiKey = apiKey;
+        }
+
+        private String apiKey;
 
         public String getStatusCode() {
             return statusCode;
@@ -161,6 +173,16 @@ public class LogTest {
         public void setDateTime(String dateTime) {
             this.dateTime = dateTime;
         }
+
+        public String getServiceId() {
+            return serviceId;
+        }
+
+        public void setServiceId(String serviceId) {
+            this.serviceId = serviceId;
+        }
+
+
     }
 }
 
