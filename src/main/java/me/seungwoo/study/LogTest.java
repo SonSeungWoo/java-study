@@ -47,8 +47,10 @@ public class LogTest {
             logDto.setBrowser(list.get(2));
             logDto.setDateTime(list.get(3));
             URL url = new URL(logDto.getRequestUrl());
-            logDto.setServiceId(url.getPath().replace("/", "").replace("search", ""));
-            if (!isEmpty(url.getQuery())) logDto.setApiKey(getApiKey(url.getQuery()));
+            if (!isEmpty(url.getQuery())) {
+                logDto.setServiceId(url.getPath().replace("/", "").replace("search", ""));
+                logDto.setApiKey(getApiKey(url.getQuery()));
+            }
             logList.add(logDto);
             //여기까지 수정
         }
@@ -79,6 +81,7 @@ public class LogTest {
         //서비스아이디 순위 호출 카운트
         sb.append("서비스아이디 순위 호출 카운트" + "\n");
         Map<String, Long> codeCount = logList.stream()
+                .filter(it -> !isEmpty(it.getServiceId()))
                 .collect(groupingBy(LogDto::getServiceId, counting()));
 
         codeCount.entrySet().stream()
