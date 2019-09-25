@@ -31,7 +31,7 @@ public class LogTest {
      */
     public static void main(String[] args) throws IOException {
         Pattern p = Pattern.compile("\\[(.*?)\\]");
-        List<LogDto> logList = new ArrayList<>();
+        List<LogReader> logList = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader("../../Downloads/test/input.log"));
         while (!isEmpty(br.readLine())) {
             String s = br.readLine();
@@ -41,17 +41,17 @@ public class LogTest {
             while (m.find()) {
                 list.add(s.substring(m.start() + 1, m.end() - 1));
             }
-            LogDto logDto = new LogDto();
-            logDto.setStatusCode(list.get(0));
-            logDto.setRequestUrl(list.get(1));
-            logDto.setBrowser(list.get(2));
-            logDto.setDateTime(list.get(3));
-            URL url = new URL(logDto.getRequestUrl());
+            LogReader logReader = new LogReader();
+            logReader.setStatusCode(list.get(0));
+            logReader.setRequestUrl(list.get(1));
+            logReader.setBrowser(list.get(2));
+            logReader.setDateTime(list.get(3));
+            URL url = new URL(logReader.getRequestUrl());
             if (!isEmpty(url.getQuery())) {
-                logDto.setServiceId(url.getPath().replace("/", "").replace("search", ""));
-                logDto.setApiKey(getApiKey(url.getQuery()));
+                logReader.setServiceId(url.getPath().replace("/", "").replace("search", ""));
+                logReader.setApiKey(getApiKey(url.getQuery()));
             }
-            logList.add(logDto);
+            logList.add(logReader);
             //여기까지 수정
         }
         br.close();
@@ -63,7 +63,7 @@ public class LogTest {
      *
      * @param logList
      */
-    public static void logWriter(List<LogDto> logList) throws IOException {
+    public static void logWriter(List<LogReader> logList) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter("../../Downloads/test/output.log"));
         StringBuilder sb = new StringBuilder();
 
@@ -71,7 +71,7 @@ public class LogTest {
         sb.append("apikey 최다호출" + "\n");
         Map<String, Long> apiKeyCount = logList.stream()
                 .filter(it -> it.getStatusCode().equals("200") && !isEmpty(it.getApiKey()))
-                .collect(groupingBy(LogDto::getApiKey, counting()));
+                .collect(groupingBy(LogReader::getApiKey, counting()));
 
         apiKeyCount.entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue()
@@ -82,16 +82,16 @@ public class LogTest {
         sb.append("서비스아이디 순위 호출 카운트" + "\n");
         Map<String, Long> codeCount = logList.stream()
                 .filter(it -> !isEmpty(it.getServiceId()))
-                .collect(groupingBy(LogDto::getServiceId, counting()));
+                .collect(groupingBy(LogReader::getServiceId, counting()));
 
         codeCount.entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue()
-                        .reversed()).forEachOrdered(it -> sb.append(it.getKey() + "=" + it.getValue() + "\n"));
+                        .reversed()).limit(3).forEachOrdered(it -> sb.append(it.getKey() + "=" + it.getValue() + "\n"));
         sb.append("\n");
 
         //브라우저 점유율
         sb.append("브라우저 점유율" + "\n");
-        Map<String, Long> browserCount = logList.stream().collect(groupingBy(LogDto::getBrowser, counting()));
+        Map<String, Long> browserCount = logList.stream().collect(groupingBy(LogReader::getBrowser, counting()));
         browserCount.forEach((browser, count) -> sb.append(browser + "=" + browserPercent(count, logList.size()) + "\n"));
 
         bw.write(sb.toString());
@@ -128,7 +128,7 @@ public class LogTest {
     }
 
 
-    public static class LogDto {
+    public static class LogReader {
         private String statusCode;
         private String requestUrl;
         private String browser;
@@ -184,7 +184,9 @@ public class LogTest {
         public void setServiceId(String serviceId) {
             this.serviceId = serviceId;
         }
+    }
 
+    public static class LogWriter{
 
     }
 }
